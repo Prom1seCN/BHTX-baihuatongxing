@@ -1,0 +1,52 @@
+<view class="detail-page">
+  <block wx:if="{{trip}}">
+    <scroll-view class="detail-scroll" scroll-y enhanced show-scrollbar="false">
+      <view class="hero-block">
+        <view class="status-tag {{statusClassName}} {{trip.tripType === 'immediate' ? 'immediate-tag' : ''}}">{{statusText}}</view>
+        <view class="route-text">{{trip.departure}} —— {{trip.destination}}</view>
+        <block wx:if="{{trip.tripType !== 'immediate'}}">
+          <view class="date-label">出发日期</view>
+          <view class="date-value">{{trip.displayDate || trip.exact_date}}</view>
+          <view class="time-label">出发时间</view>
+          <view class="time-value">{{trip.departure_time}}</view>
+        </block>
+        <block wx:else>
+          <view class="time-label">出发时间</view>
+          <view class="time-value">{{trip.minutesLeft || trip.departure_time}}</view>
+        </block>
+        <view wx:if="{{isVerified && trip.remark}}" class="remark-block">
+          <view class="remark-label">备注</view>
+          <view class="remark-value">{{trip.remark}}</view>
+        </view>
+        <view class="tip-text">平台倡导：发起人负责叫车，同行者平摊费用。</view>
+      </view>
+
+      <view class="publisher-card">
+        <view class="publisher-main">
+          <view class="avatar-placeholder"></view>
+          <view class="user-info-detail">
+            <view class="nickname">{{trip.nickname || '北化校友'}}</view>
+            <view class="auth-status verified">已认证</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="safety-warning">
+        <text class="warning-icon">⚠️</text>
+        <text class="warning-text">安全提示：本平台仅提供校内同行信息展示，不提供任何车辆运营服务。请同学们联系成功后，共同呼叫正规网约车，切勿乘坐无资质黑车！线下请核实对方学生身份，谨慎先款转账，谨防诈骗。</text>
+      </view>
+    </scroll-view>
+
+    <view class="action-bar">
+      <checkbox-group class="agreement-group" bindchange="handleAgreementChange">
+        <label class="agreement-row">
+          <checkbox class="agreement-checkbox" value="agree" checked="{{agreementChecked}}" color="#2678ff" />
+          <text class="agreement-text">勾选即代表您已阅读并同意 </text>
+          <text class="agreement-link" catchtap="handleAgreementLinkTap">《隐私政策与用户协议》</text>
+        </label>
+      </checkbox-group>
+      <button class="copy-btn" bindtap="handleCopyContact">复制联系方式</button>
+    </view>
+  </block>
+  <view wx:else class="empty-state">未找到对应行程</view>
+</view>

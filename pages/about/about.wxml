@@ -1,0 +1,9 @@
+<view class="about-page">
+  <view class="about-card">
+    <image class="about-logo" src="/pic.png" mode="aspectFit"></image>
+    <view class="about-name">百花同行</view>
+    <view class="about-version">v1.2</view>
+    <view class="about-desc">BUCT校友拼车互助平台</view>
+    <view class="about-desc">由PROM1SE独立开发</view>
+  </view>
+</view>

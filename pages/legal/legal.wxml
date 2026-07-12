@@ -1,0 +1,44 @@
+<view class="legal-page">
+  <scroll-view class="legal-scroll" scroll-y enhanced show-scrollbar="false">
+    <view class="legal-card">
+      <view class="legal-title">百花同行隐私政策与用户协议</view>
+
+      <view class="section-title">1. 定性与声明</view>
+      <view class="paragraph">
+        “百花同行”小程序（以下简称“本平台”）仅作为一个纯粹的信息发布与展示工具。本平台并非道路运输经营者，不提供任何形式的运输服务。本平台不参与用户之间的行程撮合、路径选择、费用分摊等具体环节，亦不从中收取任何佣金或报酬。
+      </view>
+
+      <view class="section-title">2. 互助性质与费用</view>
+      <view class="paragraph">
+        用户发起的行程属于“非营利性校园互助拼车”。用户间分摊的费用应仅限于打车费用等直接成本。严禁任何用户利用本平台从事非法营运或盈利性活动。因费用计算或支付产生的任何财务纠纷，由当事人自行解决，与本平台无关。
+      </view>
+
+      <view class="section-title">3. 身份核验局限性</view>
+      <view class="paragraph">
+        本平台虽采用教育邮箱进行基础身份验证，但无法实时验证用户的真实身份、驾驶资质、车辆保险状态及车辆安全性能。用户应在实际接触中自行核实对方身份。
+      </view>
+
+      <view class="section-title">4. 风险自担与免责</view>
+      <view class="paragraph">
+        在行程过程中如发生意外事故、人身伤害、财产损失或任何第三方纠纷，由相关责任方依据国家法律法规及交管部门认定承担责任。本平台在法律允许的最大范围内，不承担任何民事赔偿责任或法律连带责任。
+      </view>
+
+      <view class="section-title">5. 隐私与数据安全</view>
+      <view class="paragraph">
+        我们深知个人信息的重要性。本平台仅在必要范围内收集以下信息：
+      </view>
+      <view class="sub-paragraph">认证信息：您的教育邮箱（用于校验北化在校生身份，不予公开）。</view>
+      <view class="sub-paragraph">
+        展示信息：您主动填写的出发地、目的地及联系方式（仅在行程有效期内展示）。
+      </view>
+      <view class="paragraph">
+        我们承诺不将上述数据用于商业用途，并在您下架行程后停止展示相关联系信息。
+      </view>
+
+      <view class="section-title">6. 协议效力</view>
+      <view class="paragraph">
+        当您勾选并开始使用本平台服务时，即视为您已完全理解并自愿接受本协议的所有内容。
+      </view>
+    </view>
+  </scroll-view>
+</view>

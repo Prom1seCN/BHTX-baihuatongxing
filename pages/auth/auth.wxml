@@ -1,0 +1,53 @@
+<view class="auth-page">
+  <block wx:if="{{!isVerified}}">
+    <scroll-view class="auth-scroll" scroll-y enhanced show-scrollbar="false">
+      <view class="form-card">
+        <view class="form-item">
+          <view class="label">教育邮箱</view>
+          <view class="email-row">
+            <input
+              class="email-input"
+              type="text"
+              placeholder="请输入学号前缀"
+              value="{{emailPrefix}}"
+              bindinput="handleEmailInput"
+            />
+            <text class="email-suffix">@buct.edu.cn</text>
+          </view>
+        </view>
+
+        <view class="form-item">
+          <view class="label">验证码</view>
+          <view class="code-row">
+            <input
+              class="code-input"
+              type="number"
+              placeholder="请输入验证码"
+              value="{{code}}"
+              bindinput="handleCodeInput"
+            />
+            <button
+              class="code-btn {{countingDown ? 'disabled' : ''}}"
+              disabled="{{countingDown}}"
+              bindtap="handleSendCode"
+            >
+              {{countingDown ? countdown + 's' : '获取验证码'}}
+            </button>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="submit-wrap">
+      <button class="submit-btn" bindtap="handleSubmitAuth">立即认证</button>
+    </view>
+  </block>
+
+  <view wx:else class="verified-wrap">
+    <view class="verified-card">
+      <view class="verified-title">当前已绑定邮箱：</view>
+      <view class="verified-email">{{userEmail}}</view>
+      <button class="unbind-btn" bindtap="handleUnbind">解除绑定</button>
+    </view>
+  </view>
+</view>

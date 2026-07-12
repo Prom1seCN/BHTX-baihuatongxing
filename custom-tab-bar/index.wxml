@@ -1,0 +1,19 @@
+<view class="custom-tabbar">
+  <view
+    class="tab-item"
+    data-tab="hall"
+    bindtap="handleTabTap"
+  >
+    <text class="tab-label" style="{{hallLabelStyle}}">同行大厅</text>
+  </view>
+  <view class="tab-publish-wrap">
+    <view class="tab-publish" style="{{publishStyle}}" data-tab="publish" bindtap="handleTabTap">+</view>
+  </view>
+  <view
+    class="tab-item"
+    data-tab="mine"
+    bindtap="handleTabTap"
+  >
+    <text class="tab-label" style="{{mineLabelStyle}}">个人中心</text>
+  </view>
+</view>

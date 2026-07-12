@@ -1,0 +1,116 @@
+page {
+  height: 100vh;
+  background: #f5f7fb;
+}
+
+.mine-page {
+  min-height: 100vh;
+  padding: 24rpx 16rpx 190rpx;
+  box-sizing: border-box;
+}
+
+.profile-card {
+  padding: 40rpx 24rpx;
+  border-radius: 20rpx;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.avatar-placeholder {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239ca3af'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E");
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center 110%;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.user-info {
+  margin-left: 28rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nickname {
+  font-size: 38rpx;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 12rpx;
+}
+
+.auth-status {
+  align-self: flex-start;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  color: #b45309;
+  background: #fef3c7;
+}
+
+.auth-status.verified {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.menu-list {
+  margin-top: 20rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.menu-item {
+  height: 108rpx;
+  padding: 0;
+  font-size: 30rpx;
+  color: #111827;
+  border-bottom: 1rpx solid #f3f4f6;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-cell,
+.feedback-cell {
+  width: 100%;
+  height: 100%;
+  padding: 0 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font-size: 30rpx;
+  color: #111827;
+}
+
+.feedback-cell {
+  position: relative;
+}
+
+.menu-feedback-overlay {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  opacity: 0;
+}
+
+.menu-feedback-overlay::after {
+  border: none;
+}
+
+.menu-arrow {
+  color: #9ca3af;
+}

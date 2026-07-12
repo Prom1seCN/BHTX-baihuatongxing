@@ -1,0 +1,34 @@
+<view class="mine-page">
+  <view class="profile-card">
+    <view class="avatar-placeholder"></view>
+    <view class="user-info">
+      <view class="nickname">北化校友</view>
+      <view class="auth-status {{isVerified ? 'verified' : ''}}">
+        {{isVerified ? '已认证' : '未认证'}}
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-list">
+    <view
+      wx:for="{{menus}}"
+      wx:key="key"
+      class="menu-item"
+    >
+      <block wx:if="{{item.key === 'feedback'}}">
+        <view class="menu-cell feedback-cell">
+          <text>{{item.label}}</text>
+          <text class="menu-arrow">></text>
+          <button class="menu-feedback-overlay" open-type="feedback"></button>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="menu-cell" data-key="{{item.key}}" bindtap="handleMenuTap">
+          <text>{{item.label}}</text>
+          <text class="menu-arrow">></text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+</view>

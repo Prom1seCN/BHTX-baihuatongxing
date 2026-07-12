@@ -1,0 +1,168 @@
+<view class="publish-page">
+  <view class="tab-header">
+    <view class="tab-switch">
+      <view
+        class="tab-item {{activeTab === 'immediate' ? 'active' : ''}}"
+        data-tab="immediate"
+        bindtap="handleTabChange"
+      >即刻出发</view>
+      <view
+        class="tab-item {{activeTab === 'scheduled' ? 'active' : ''}}"
+        data-tab="scheduled"
+        bindtap="handleTabChange"
+      >预约同行</view>
+    </view>
+  </view>
+
+  <scroll-view class="form-scroll" scroll-y enhanced show-scrollbar="false">
+    <block wx:if="{{activeTab === 'immediate'}}">
+    <view class="form-card immediate-form">
+      <view class="form-item">
+        <view class="label">出发时间</view>
+        <picker
+          mode="selector"
+          range="{{immediateMinuteOptions}}"
+          value="{{immediateMinuteIndex}}"
+          bindchange="handleImmediateMinuteChange"
+        >
+          <view class="picker-value">{{immediateMinuteOptions[immediateMinuteIndex]}}分钟后</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <view class="label">选择路线</view>
+        <view class="route-options">
+          <view
+            wx:for="{{immediateLocations}}"
+            wx:key="index"
+            class="route-option {{selectedImmediateRoute === index ? 'selected' : ''}}"
+            data-index="{{index}}"
+            catchtap="handleImmediateRouteSelect"
+          >
+            <text class="route-option-text">{{item.from}}</text>
+            <text class="route-arrow-small">——</text>
+            <text class="route-option-text">{{item.to}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <view class="label">联系方式</view>
+        <input
+          class="contact-input"
+          type="text"
+          placeholder="请输入您的联系方式，方便同行者联系"
+          value="{{form.contact}}"
+          bindinput="handleContactInput"
+        />
+      </view>
+    </view>
+    </block>
+
+    <block wx:elif="{{activeTab === 'scheduled'}}">
+    <view class="form-card">
+      <view class="form-item">
+        <view class="label">出发日期</view>
+        <picker
+          mode="date"
+          value="{{form.departureDate || pickerStart}}"
+          start="{{pickerStart}}"
+          end="{{pickerEnd}}"
+          bindchange="handleDateChange"
+        >
+          <view class="picker-value {{form.departureDate ? '' : 'placeholder'}}">
+            {{form.departureDate || '请选择日期'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <view class="label">出发时间</view>
+        <picker
+          mode="multiSelector"
+          range="{{timePickerRange}}"
+          value="{{timePickerValue}}"
+          bindchange="handleTimeChange"
+        >
+          <view class="picker-value">
+            {{form.departureTime || roundedNowTime}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <view class="label">出发地</view>
+        <picker mode="selector" range="{{locationPickerList}}" bindchange="handleDepartureChange">
+          <view class="picker-value {{form.departure ? '' : 'placeholder'}}">
+            {{form.departure || '点击选择出发地'}}
+          </view>
+        </picker>
+        <input
+          wx:if="{{isCustomDeparture}}"
+          class="custom-input"
+          type="text"
+          maxlength="8"
+          placeholder="请输入出发地（最多8个汉字）"
+          value="{{form.customDeparture}}"
+          bindinput="handleCustomDepartureInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="label">目的地</view>
+        <picker mode="selector" range="{{locationPickerList}}" bindchange="handleDestinationChange">
+          <view class="picker-value {{form.destination ? '' : 'placeholder'}}">
+            {{form.destination || '点击选择目的地'}}
+          </view>
+        </picker>
+        <input
+          wx:if="{{isCustomDestination}}"
+          class="custom-input"
+          type="text"
+          maxlength="8"
+          placeholder="请输入目的地（最多8个汉字）"
+          value="{{form.customDestination}}"
+          bindinput="handleCustomDestinationInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="label">联系方式</view>
+        <input
+          class="contact-input"
+          type="text"
+          placeholder="请输入您的联系方式，方便同行者联系"
+          value="{{form.contact}}"
+          bindinput="handleContactInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="label">备注</view>
+        <input
+          class="contact-input"
+          type="text"
+          maxlength="20"
+          placeholder="选填"
+          placeholder-class="placeholder-hint"
+          value="{{form.remark}}"
+          bindinput="handleRemarkInput"
+        />
+      </view>
+    </view>
+    </block>
+
+    <view class="safety-tip">平台倡导：发起人负责叫车，同行者平摊费用。</view>
+  </scroll-view>
+
+  <view class="submit-wrap">
+    <checkbox-group class="agreement-group" bindchange="handleAgreementChange">
+      <label class="agreement-row">
+        <checkbox class="agreement-checkbox" value="agree" checked="{{agreementChecked}}" color="#2678ff" />
+        <text class="agreement-text">勾选即代表您已阅读并同意 </text>
+        <text class="agreement-link" catchtap="handleAgreementLinkTap">《免责声明与隐私协议》</text>
+      </label>
+    </checkbox-group>
+    <button class="submit-btn" bindtap="handleSubmit">发布</button>
+  </view>
+</view>

@@ -1,0 +1,40 @@
+.custom-tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  height: 148rpx;
+  padding-bottom: calc(8rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: #ffffff;
+  box-shadow: 0 -8rpx 20rpx rgba(17, 24, 39, 0.08);
+  overflow: hidden;
+}
+
+.tab-item {
+  width: 200rpx;
+  text-align: center;
+}
+
+.tab-label {
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.tab-publish-wrap {
+  position: relative;
+  width: 140rpx;
+  text-align: center;
+}
+
+.tab-publish {
+  margin: 0 auto;
+  border-radius: 50%;
+  text-align: center;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2c7bff, #4d9dff);
+  box-shadow: 0 10rpx 18rpx rgba(44, 123, 255, 0.35);
+}

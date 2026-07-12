@@ -1,0 +1,185 @@
+page {
+  height: 100vh;
+  background: #f5f7fb;
+}
+
+.hall-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.filter-panel {
+  padding: 20rpx 24rpx 24rpx;
+  background: #ffffff;
+  box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 24rpx;
+}
+
+.date-filter {
+  display: flex;
+  margin-bottom: 16rpx;
+}
+
+.date-item {
+  margin-right: 16rpx;
+  padding: 12rpx 28rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  color: #5f6368;
+  background: #f2f4f7;
+}
+
+.date-item.active {
+  color: #ffffff;
+  background: #2678ff;
+}
+
+.filter-group {
+  margin-bottom: 18rpx;
+}
+
+.filter-group:last-child {
+  margin-bottom: 0;
+}
+
+.filter-title {
+  margin-bottom: 12rpx;
+  font-size: 26rpx;
+  color: #6b7280;
+}
+
+.tag-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.tag-row {
+  display: inline-flex;
+}
+
+.tag-item {
+  margin-right: 16rpx;
+  padding: 12rpx 28rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  color: #4b5563;
+  background: #eef2f7;
+}
+
+.tag-item.active {
+  color: #2678ff;
+  background: #e8f0ff;
+}
+
+.trip-scroll {
+  flex: 1;
+  min-height: 0;
+  padding: 18rpx 12rpx 170rpx;
+  box-sizing: border-box;
+}
+
+.trip-card {
+  position: relative;
+  margin-bottom: 24rpx;
+  padding: 40rpx 30rpx;
+  border-radius: 20rpx;
+  background: #ffffff;
+  box-shadow: 0 8rpx 20rpx rgba(18, 38, 63, 0.08);
+}
+
+.trip-main {
+  display: flex;
+  gap: 28rpx;
+  align-items: center;
+}
+
+.trip-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.trip-datetime {
+  font-size: 40rpx;
+  font-weight: 400;
+  color: #111827;
+  line-height: 1.3;
+}
+
+.trip-route {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 30rpx;
+  font-weight: 400;
+  color: #374151;
+}
+
+.route-text {
+  max-width: 340rpx;
+}
+
+.route-arrow {
+  margin: 0 10rpx;
+  color: #9ca3af;
+}
+
+.trip-remark {
+  font-size: 24rpx;
+  color: #9ca3af;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trip-status {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  color: #16a34a;
+  background: #e8f8ee;
+}
+
+.empty-state {
+  padding-top: 160rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #9ca3af;
+}
+
+.immediate-card {
+  border-left: 8rpx solid #ff6b35;
+}
+
+.immediate-card .trip-datetime {
+  color: #ff6b35;
+  font-size: 40rpx;
+  font-weight: 400;
+}
+
+.immediate-status {
+  color: #ff6b35;
+  background: #fff4f0;
+}
+
+.bottom-hint {
+  padding: 40rpx 0 60rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #9ca3af;
+}
+
+.loading-more {
+  padding: 24rpx 0;
+  text-align: center;
+  font-size: 24rpx;
+  color: #9ca3af;
+}

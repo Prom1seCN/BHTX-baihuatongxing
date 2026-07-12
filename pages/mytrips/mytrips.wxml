@@ -1,0 +1,47 @@
+<view class="container">
+  <view wx:if="{{isLoading}}" class="loading-state">
+    <text>加载中...</text>
+  </view>
+
+  <view wx:elif="{{myTrips.length === 0}}" class="empty-state">
+    <text class="empty-text">暂无行程，你发布的行程会显示在这里</text>
+  </view>
+
+  <scroll-view wx:else class="trip-list" scroll-y enhanced show-scrollbar="false">
+    <view
+      class="trip-card {{item.tripType === 'immediate' ? 'immediate-card' : ''}}"
+      wx:for="{{myTrips}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goToDetail"
+    >
+      <view class="trip-status {{item.status === 'active' ? (item.tripType === 'immediate' ? 'immediate-status' : '') : 'expired-badge'}}">
+        {{item.status === 'active' ? (item.tripType === 'immediate' ? '即刻出发' : '预约同行') : '已过期'}}
+      </view>
+      <view class="trip-main">
+        <view class="trip-left">
+          <view class="trip-datetime">{{(item.displayDate || item.exact_date) + ' ' + item.departure_time + '出发'}}</view>
+          <view class="trip-route">
+            <text class="route-text">{{item.departure}}</text>
+            <text class="route-arrow">——</text>
+            <text class="route-text">{{item.destination}}</text>
+          </view>
+          <view wx:if="{{isVerified && item.remark}}" class="trip-remark">{{item.remark}}</view>
+        </view>
+      </view>
+
+      <view wx:if="{{item.status === 'active'}}" class="card-actions">
+        <button
+          class="deactivate-btn"
+          data-id="{{item.id}}"
+          data-status="{{item.status}}"
+          catchtap="handleDeactivateTrip"
+        >
+          下架行程
+        </button>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="safety-tip">平台倡导：发起人负责叫车，同行者平摊费用。</view>
+</view>
