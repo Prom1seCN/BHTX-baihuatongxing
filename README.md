@@ -1,149 +1,223 @@
-# 百花同行 (BHTX)
+# 百花同行 · BHTX
 
-> 北京化工大学（北化）学子专属的拼车 / 同行出行互助平台 —— 纯公益、非营利微信小程序。
->
-> AppID：`wx09391efa82a43eaa` · 后端接口：`https://bhtx.prom1se.cn/api`
+> 北京化工大学（BUCT）学子专属的 **纯公益、非营利** 拼车 / 同行互助小程序。
+
+<p align="center">
+  <img src="pic.png" alt="百花同行 Logo" width="120" />
+</p>
+
+<p align="center">
+  <img alt="Platform" src="https://img.shields.io/badge/Platform-微信小程序-brightgreen" />
+  <img alt="Backend" src="https://img.shields.io/badge/Backend-Node.js%20%2B%20Express-339933" />
+  <img alt="Database" src="https://img.shields.io/badge/Database-MongoDB-47A248" />
+  <img alt="Nature" src="https://img.shields.io/badge/Nature-纯公益%20非营利-ff69b4" />
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-blue" />
+</p>
 
 ---
 
-## 一、这是什么
+## ✨ 项目简介
 
-百花同行是一个帮助北化学子拼车、约伴出行的微信小程序。用户发布自己的行程（出发地、目的地、时间），其他人浏览并联系同行。
+**百花同行**是一个面向北京化工大学在校师生的校园出行互助平台。把同一时间、相近路线的同学匹配到一起，共同呼叫正规网约车、分摊车费。
 
-- 发布行程需通过**北化邮箱（`@buct.edu.cn`）验证码认证**，确保参与者是真实校友。
-- 联系方式默认脱敏，认证用户才能复制，且复制有频率限制。
-- 文本内容经微信内容安全接口审查，防止违规信息。
+- 🚫 **不提供车辆、不派单、不抽成**
+- 🎓 **仅对北化在校生开放** —— 需 `@buct.edu.cn` 教育邮箱认证
+- 💚 **全程零商业、纯公益**
+- ✅ 项目已上线运营，在微信内搜索「百花同行」小程序即可使用
 
 ---
 
-## 二、技术栈
+## 🌟 功能特性
+
+| 模块 | 说明 |
+| --- | --- |
+| **同行大厅** | 按出发地 / 目的地 / 日期（今天 / 明天 / 后天 / 自定义）多维度筛选，分页懒加载。 |
+| **发布行程** | 两种模式：<br>• **即刻出发** —— 选择「X 分钟后出发」，适合临时约车；<br>• **预约同行** —— 提前 15 天内预约，支持自定义地点与备注。 |
+| **北化邮箱认证** | `@buct.edu.cn` 验证码登录；认证后才可发布行程、查看他人联系方式。 |
+| **行程详情** | 查看完整行程信息；复制对方联系方式（限频：2 小时内最多 5 次），需勾选协议。 |
+| **我的行程** | 管理自己发布的行程，可一键下架。 |
+| **文本安全审查** | 发布时自动调用微信内容安全接口（`msg_sec_check`）过滤违规信息。 |
+| **自动过期** | 出发时间一过，行程自动标记为 `expired`，不再对外展示。 |
+| **配套页面** | 个人中心 / 关于 / 隐私政策与用户协议。 |
+
+---
+
+## 🏗️ 技术架构
+
+```
+┌─────────────────────┐         HTTPS / JSON (JWT Bearer)        ┌─────────────────────────┐
+│   微信小程序前端      │  ───────────────────────────────────▶  │     Node.js + Express    │
+│  (WXML / WXSS / JS) │  ◀───────────────────────────────────  │       服务端 REST API     │
+└─────────────────────┘           生产域名见下                     └────────────┬────────────┘
+                                                                              │ Mongoose ODM
+                                                                              ▼
+                                                                     ┌──────────────────┐
+                                                                     │     MongoDB      │
+                                                                     │ Trip / User / … │
+                                                                     └──────────────────┘
+```
+
+- **前端**：原生微信小程序框架（glass-easel），自定义 tabBar（仅「同行大厅」「个人中心」两项）。
+- **后端**：Node.js + Express 提供 RESTful API，MongoDB（Mongoose）持久化。
+- **生产 API 地址**：`https://bhtx.prom1se.cn/api`
+
+---
+
+## 🛠️ 技术栈
 
 | 层 | 技术 |
-|---|---|
-| 前端 | 微信小程序原生（WXML / WXSS / JS），自定义 tabBar |
-| 后端 | Node.js + Express + MongoDB（Mongoose） |
-| 鉴权 | 微信 `jscode2session` 换 openid + JWT（7 天）；北化邮箱验证码 |
-| 安全 | 微信 `msg_sec_check` 文本审查、列表脱敏、联系方式复制限频、各接口 rate-limit |
-| 邮件 | Nodemailer 走 163 SMTP 发送验证码 |
-| 部署 | Ubuntu 云服务器 + pm2 进程管理（Node 20+） |
+| --- | --- |
+| 前端 | 微信原生小程序、自定义 tabBar 组件 |
+| 后端 | Node.js、Express、Mongoose、jsonwebtoken、Nodemailer、axios、express-rate-limit |
+| 数据库 | MongoDB |
+| 鉴权与安全 | 微信小程序登录（`jscode2session`）、JWT（7 天有效期）、微信内容安全 `msg_sec_check`、接口限流 |
+| 部署 | pm2 + `ecosystem.config.js`（Node 20+ 原生 `--env-file` 加载 `.env`） |
 
 ---
 
-## 三、目录结构
+## 📁 目录结构
 
 ```
 BHTX/
-├── app.js / app.json / app.wxss      # 小程序全局配置
+├── app.js / app.json / app.wxss      # 小程序入口与全局配置
+├── server.js                         # 后端服务（Express + MongoDB）
+├── package.json                      # 后端依赖与启动脚本
+├── ecosystem.config.js               # pm2 部署配置（不含密钥）
+├── project.config.json               # 微信开发者工具项目配置
+├── pic.png                          # 应用 Logo
+├── .env.example                     # 环境变量模板（真实值见 .env，已被 .gitignore 忽略）
 ├── pages/                           # 8 个页面
-│   ├── index/       同行大厅（浏览/筛选行程）
-│   ├── detail/      行程详情（认证后复制联系方式）
-│   ├── mytrips/     我的行程（查看/下架）
-│   ├── publish/     发布行程（即刻出发 / 预约同行）
-│   ├── auth/        北化邮箱验证码认证
-│   ├── mine/        个人中心
-│   ├── legal/       法律声明
-│   └── about/       关于项目
-├── custom-tab-bar/                  # 自定义底部导航（同行大厅 / 个人中心）
-├── utils/
-│   ├── request.js      封装 wx.request + JWT + 401 静默重登
-│   ├── locations.js    统一地点库（改地点只动这里）
-│   ├── trip-formatter.js
-│   └── trip-store.js
-├── server.js                        # 后端服务（Express）
-├── ecosystem.config.js              # pm2 启动配置（不含密钥）
-├── package.json                     # 后端依赖与启动脚本
-├── .env.example                     # 环境变量模板（提交到仓库）
-├── .gitignore                       # 忽略 .env / node_modules 等
-└── README.md
-```
-
-> ⚠️ **密钥文件 `.env` 不在此目录列表中** —— 它已被 `.gitignore` 忽略，只存在于你的本地与服务器，不会进入 Git 仓库。
-
----
-
-## 四、环境变量（重要）
-
-所有敏感配置都通过环境变量注入，**绝不写进源码**。
-
-1. 复制模板生成本地配置：
-   ```bash
-   cp .env.example .env
-   ```
-2. 用记事本（或任意编辑器）打开 `.env`，填入真实值：
-
-   | 变量 | 说明 |
-   |---|---|
-   | `WX_APP_SECRET` | 微信小程序 AppSecret（公众平台「开发管理 → 开发设置」获取） |
-   | `JWT_SECRET` | JWT 签名密钥。用 `openssl rand -hex 32` 生成一个强随机串 |
-   | `SMTP_USER` | 163 邮箱账号（用于发验证码） |
-   | `SMTP_PASS` | 163 邮箱授权码（不是登录密码，是「授权码」） |
-   | `ADMIN_KEY` | 复制统计接口的管理密钥，自定义任意字符串 |
-
-`.env` 内容示例（仅结构，填入你自己的值）：
-```
-WX_APP_SECRET=你的微信AppSecret
-JWT_SECRET=一串随机字符
-SMTP_USER=bhtxadmin@163.com
-SMTP_PASS=你的163授权码
-ADMIN_KEY=自定义管理密钥
+│   ├── index/      同行大厅（筛选 / 分页 / 详情入口）
+│   ├── detail/     行程详情（复制联系方式）
+│   ├── mytrips/    我的行程
+│   ├── publish/    发布（即刻出发 / 预约同行）
+│   ├── auth/       北化邮箱认证
+│   ├── mine/       个人中心
+│   ├── about/      关于
+│   └── legal/      隐私政策与用户协议
+├── custom-tab-bar/                  # 自定义底部导航
+└── utils/                          # 公共逻辑
+    ├── request.js          请求封装（JWT / 401 静默重登）
+    ├── locations.js        统一地点库（增删地点只需改这里）
+    ├── trip-formatter.js   行程格式化 / 排序
+    └── trip-store.js       本地存储
 ```
 
 ---
 
-## 五、本地开发
+## 🚀 本地运行
 
-### 后端
+### 前置条件
+
+- Node.js ≥ 20（需支持 `--env-file`）
+- 本地 MongoDB 实例
+- 微信开发者工具
+- 一个 163 邮箱（用于发送验证码）与微信小程序 AppID
+
+### 1. 启动后端
+
 ```bash
+git clone <your-repo-url>
+cd BHTX
+
 npm install
-npm start        # 等价于 node --env-file=.env server.js，监听 3000 端口
+
+# 复制环境变量模板并填入真实值
+cp .env.example .env
+# 编辑 .env：WX_APP_SECRET / JWT_SECRET / SMTP_USER / SMTP_PASS / ADMIN_KEY
+
+npm start          # 等价于 node --env-file=.env server.js
 ```
 
-### 前端
-用**微信开发者工具**打开本项目根目录，即可预览小程序。前端已发布的版本与后端解耦，后端配置变更通常无需重新发布前端。
+服务默认监听 **3000** 端口，MongoDB 默认连接 `mongodb://localhost:27017/bhtx`
+（如需修改，编辑 `server.js` 顶部 `MONGO_URI` 常量）。
+
+### 2. 打开前端
+
+1. 用微信开发者工具「导入项目」，目录选择本仓库根目录。
+2. AppID 填 `wx09391efa82a43eaa`（或你自己的测试号）。
+3. 在「开发管理 → 服务器域名」中将 `https://bhtx.prom1se.cn` 加入 request 合法域名；本地调试可勾选「不校验合法域名」。
+4. 编译预览。
 
 ---
 
-## 六、部署到服务器（pm2）
+## 🔐 环境变量
 
-适用于已将安全加固版部署上线的生产环境（Ubuntu + pm2 + Node 20）。
+| 变量 | 说明 | 获取方式 |
+| --- | --- | --- |
+| `WX_APP_SECRET` | 微信小程序 AppSecret | 微信公众平台「开发管理 → 开发设置」 |
+| `JWT_SECRET` | JWT 签名密钥 | `openssl rand -hex 32` 生成随机串 |
+| `SMTP_USER` | 163 邮箱账号 | 如 `bhtxadmin@163.com` |
+| `SMTP_PASS` | 163 邮箱授权码（非登录密码） | 163 邮箱「设置 → 客户端授权码」 |
+| `ADMIN_KEY` | 复制统计接口 (`/api/stats/copy`) 的管理密钥 | 自定义任意字符串 |
+| `PORT` | 服务端口（默认 3000） | 可选 |
+| `MONGO_URI` | MongoDB 连接串（当前于 `server.js` 硬编码，可改） | 可选 |
 
-1. **把改动的文件传到服务器**（在本地 Git Bash 执行，走 SSH）：
-   ```bash
-   scp server.js ecosystem.config.js .env.example ubuntu@你的服务器IP:/home/ubuntu/bhtx-backend/
-   ```
-   > `.env` 同样用 scp 传一次即可，之后不用每次传（它不进 Git）。
-
-2. **在服务器上用新配置重启**：
-   ```bash
-   cd ~/bhtx-backend
-   pm2 delete bhtx
-   pm2 start ecosystem.config.js
-   pm2 save        # 让进程在服务器重启后自动恢复
-   ```
-
-3. **验证日志无报错**：
-   ```bash
-   pm2 logs bhtx --lines 30
-   ```
-   应看到 `Server running at http://localhost:3000` 与 `MongoDB connected`，且无「缺少环境变量」错误。
-
-> 回滚：若新版本起不来，`cp server.js.save server.js && pm2 delete bhtx && pm2 start server.js` 即可恢复旧版。
+> ⚠️ 密钥仅存于服务端 `.env`，**绝不入库、不进前端、不写进任何会被提交的文件中**。`.env` 已在 `.gitignore` 中忽略。
 
 ---
 
-## 七、安全说明
+## 📡 API 概览
 
-- 源码中**不包含任何明文密钥**；密钥全部在 `.env`，已加入 `.gitignore`。
-- 推送前请确认 `git status` 中**没有 `.env`**。
-- 仓库建议设为 **Private**（GitHub → Settings → Change visibility），除非你明确要开源。
-- 推送认证使用 **Personal Access Token（PAT）**，不要用登录密码。
-- 本项目当前已部署上线，修改后端后按「第六节」流程同步即可，前端无需重新发布。
+| 方法 | 路径 | 说明 | 鉴权 |
+| --- | --- | --- | --- |
+| POST | `/api/auth/login` | 微信 `code` 换取 JWT | 否 |
+| POST | `/api/auth/send-code` | 发送北化邮箱验证码 | 否 |
+| POST | `/api/auth/verify` | 校验验证码完成认证 | Token |
+| POST | `/api/auth/unbind` | 解绑邮箱 | Token |
+| GET | `/api/trips` | 大厅列表（脱敏，支持 `limit` / `skip` 分页） | 否 |
+| POST | `/api/trips` | 发布行程 | Token + 已认证 |
+| GET | `/api/trips/my` | 我的行程 | Token |
+| GET | `/api/trips/:id` | 行程详情（脱敏） | 否 |
+| GET | `/api/trips/:id/contact` | 获取联系方式（限频 5 次 / 2 小时） | Token + 已认证 |
+| PUT | `/api/trips/:id/inactive` | 下架自己的行程 | Token |
+| POST | `/api/text-review` | 文本安全审查 | Token |
+| GET | `/api/stats/copy` | 每日复制统计（需 `ADMIN_KEY`） | Admin Key |
 
 ---
 
-## 八、相关文件速查
+## 🛡️ 安全与隐私
 
-- 改地点（校区 / 车站 / 机场）：`utils/locations.js`
-- 改后端接口 / 安全策略：`server.js`
-- 改进程启动方式：`ecosystem.config.js`
-- 改环境变量清单：`.env.example`
+- **列表脱敏**：大厅与详情接口对所有访客隐藏 `contact` 与 `openid`。
+- **联系方式受控**：仅在用户完成北化邮箱认证、且勾选协议后，经限频接口获取。
+- **内容审查**：所有发布文本经微信 `msg_sec_check` 内容安全审查，违规即拦截。
+- **多层限流**：发布 5 次 / 10 分钟、发码 5 次 / 15 分钟、文本审查 20 次 / 分钟、复制 5 次 / 2 小时。
+- **最小数据收集**：仅收集教育邮箱（用于身份校验，不公开）与用户主动填写的行程 / 联系方式（仅行程有效期内展示）。
+
+---
+
+## 🚢 部署（pm2）
+
+服务端使用 pm2 守护进程，`ecosystem.config.js` 已配置好启动参数（不含任何密钥）：
+
+```bash
+# 在服务器上
+npm install --production
+cp .env.example .env   # 填入生产环境真实密钥
+pm2 start ecosystem.config.js
+pm2 save
+```
+
+> 说明：`ecosystem.config.js` 通过 `node_args: "--env-file=.env"` 让 Node 20+ 原生加载 `.env`，无需额外 dotenv 依赖。
+
+---
+
+## ⚖️ 免责声明
+
+百花同行**仅为信息发布与展示工具**，并非道路运输经营者，不提供任何运输服务，亦不从中收取佣金。用户间的费用分摊仅限于打车等直接成本，严禁利用本平台从事非法营运或盈利活动。
+
+平台采用教育邮箱进行基础身份验证，但**无法实时核验用户的真实身份、驾驶资质、车辆保险及安全性能**，请用户在实际接触中自行核实。因线下行程产生的任何事故、纠纷或财产损失，由相关责任方依法承担，本平台在法律允许的最大范围内不承担赔偿责任。
+
+完整条款见小程序内「隐私政策与用户协议」页面。
+
+---
+
+## 👤 作者
+
+由 **PROM1SE** 独立开发与维护。
+
+---
+
+## 📄 开源协议
+
+本项目以 [MIT 协议](./LICENSE) 开源，仅供学习与交流使用。
